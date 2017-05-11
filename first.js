@@ -3,40 +3,63 @@
 
 var choosedProduct = {totalPrice: 0};
 
-var firstButtons = [
+var productButtons = [
   {id: "t-shirt", price: 10},
   {id: "tote", price: 15}
 ];
 
-$("button").click(function(event){
+var firstPhaseConfirmation;
+var secondPhaseConfirmation;
+
+var colourButtons = [
+  {id: "colour-white"},
+  {id: "colour-black"},
+  {id: "colour-blue"}
+]
+
+/*$("button").click(function(event){
 
     var buttonClicked = event.currentTarget;
 
-    firstButtons.forEach(function(button){
+    productButtons.forEach(function(button){
       if(buttonClicked.id === button.id){
-        console.log(button.id);
+
+        firstPhaseConfirmation = true;
+        choosedProduct.name = button.id;
+        choosedProduct.totalPrice = button.price;
+        console.log(choosedProduct);
       }
     });
 
+    if(firstPhaseConfirmation){
+      colourButtons.forEach(function(button){
+        if(buttonClicked.id === button.id){
 
+          secondPhaseConfirmation = true;
+          choosedProduct.colour = button.id;
+          console.log(choosedProduct);
+        }
+      });
+    }
 
+});*/
 
-
-    // firstButtons.forEach(function(button){
-
-      // if(button.id === id){
-      //   choosedProduct.name = button.id;
-      //   choosedProduct.totalPrice+= button.price;
-      // }
-
-    // });
-
+$(document).ready(function(){
+    $("form").submit(function(event){
+      event.preventDefault(); //don´t understand why only with this line the info about the event appeared in the console
+      var infoEvent = event.currentTarget.childNodes;
+      var arr = Object.keys(infoEvent).map(function(key){
+        return infoEvent[key];
+      });
+      console.log(arr);
+      var a = arr.filter(function(element){
+        return element.nodeValue;
+      });
+      console.log(a);
+    });
 });
-//
-// $(".second").click(function(event){
-//
-//   var id = event.currentTarget.attributes.id.nodeValue;
-//
-//   firstButtons
-//
-// })
+
+$("#cancel").click(function(button){
+  choosedProduct = {totalPrice: 0};
+  console.log(choosedProduct);
+});
