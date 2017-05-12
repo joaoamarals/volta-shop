@@ -1,6 +1,3 @@
-
-
-
 var choosedProduct = {totalPrice: 0};
 
 var productButtons = [
@@ -10,6 +7,7 @@ var productButtons = [
 
 var firstPhaseConfirmation;
 var secondPhaseConfirmation;
+var thirdPhaseConfirmation;
 
 var colourButtons = [
   {id: "colour-white"},
@@ -17,7 +15,7 @@ var colourButtons = [
   {id: "colour-blue"}
 ]
 
-/*$("button").click(function(event){
+$("button").click(function(event){
 
     var buttonClicked = event.currentTarget;
 
@@ -42,24 +40,45 @@ var colourButtons = [
       });
     }
 
-});*/
+});
 
 $(document).ready(function(){
-    $("form").submit(function(event){
+  $("form").submit(function(event){
+
+    if(secondPhaseConfirmation){
+
       event.preventDefault(); //don´t understand why only with this line the info about the event appeared in the console
-      var infoEvent = event.currentTarget.childNodes;
-      var arr = Object.keys(infoEvent).map(function(key){
-        return infoEvent[key];
+
+      //array with info about input fields
+      var infoEvent = Array.from(event.currentTarget.elements).filter(function(element){
+        if(element.id.includes("colours")){
+          return element;
+        }
       });
-      console.log(arr);
-      var a = arr.filter(function(element){
-        return element.nodeValue;
+
+      //assignment of input values to choosedProduct object
+      infoEvent.forEach(function(element){
+        if(element.id === "colours-front"){
+          choosedProduct.coloursFront = element.value;
+        }
+        else if(element.id === "colours-back"){
+          choosedProduct.coloursBack = element.value;
+        }
+        else{
+          console.log("Something went wrong!")
+        }
       });
-      console.log(a);
-    });
+
+      thirdPhaseConfirmation = true;
+      console.log(choosedProduct);
+    }
+  });
 });
 
 $("#cancel").click(function(button){
   choosedProduct = {totalPrice: 0};
+  firstPhaseConfirmation = false;
+  secondPhaseConfirmation = false;
+  thirdPhaseConfirmation = false;
   console.log(choosedProduct);
 });
